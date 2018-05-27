@@ -1,0 +1,172 @@
+verbose_logging
+realtime_interval  0.1
+========
+OBJECTS
+========
+background .
+brown
+
+white1 1
+(#f5f5f5) 
+lightgreen
+
+white2 2
+(#f0f0f0) 
+green
+
+white3 3
+(#e5e5e5) 
+yellow
+
+white4 4
+(#e0e0e0)
+orange
+
+white5 5
+(#d5d5d5)
+lightblue
+
+hole X
+black
+
+player P
+red
+00.00
+0...0
+.....
+0...0
+00.00
+selected
+pink
+00.00
+0...0
+.....
+0...0
+00.00
+
+done
+blue
+.....
+.....
+..0..
+.....
+.....
+mixing
+blue
+0...0
+.....
+.....
+.....
+0...0
+more
+brown
+loctn A
+blue
+.....
+..0..
+.0.0.
+..0..
+.....
+
+=======
+LEGEND
+=======
+white = white1 or white2 or white3 or white4 or white5
+otherwhite = white
+
+=======
+SOUNDS
+=======
+
+================
+COLLISIONLAYERS
+================
+background
+more
+white
+selected
+player
+done, mixing
+loctn, hole
+
+======
+RULES
+======
+(setup)
+[loctn no done] -> [loctn mixing]
+(random[white3][white1 | white1][mixing] -> [white1][white3 | white1][]
+random[white2][white4 | white4][mixing] -> [white4][white2 | white4][]
+random[white1][white5 | white5][mixing] -> [white5][white1 | white5][]
+random[white4][white2 | white2][mixing] -> [white2][white4 | white2][]
+random[white5][white3 | white3][mixing] -> [white3][white5 | white3][])
+random[white][white1 | white1][mixing] -> [white1][white | white1][]
+random[white][white4 | white4][mixing] -> [white4][white | white4][]
+random[white][white5 | white5][mixing] -> [white5][white | white5][]
+random[white][white2 | white2][mixing] -> [white2][white | white2][]
+random[white][white3 | white3][mixing] -> [white3][white | white3][]
+[loctn mixing] -> [loctn done player] message mixed
+
+[more] -> []
+
+[player hole] -> message ......... you have fallen down a hole .......
+[player hole] -> restart
+
+[action player white][loctn no white] -> [player selected][loctn white]
+[action player white][loctn otherwhite][selected] -> [player otherwhite][loctn][white] 
+
+([done][white1 | white1 | white1 | white1 | white1 | white1] [white2 | white2 | white2 | white2 | white2 | white2] [white3 | white3 | white3 | white3 | white3 | white3] [white4 | white4 | white4 | white4 | white4 | white4] [white5 | white5 | white5 | white5 | white5 | white5] -> win)
+[done][white1 | white1] -> [done][hole | hole]
+[done][white2 | white2] -> [done][hole | hole]
+[done][white3 | white3] -> [done][hole | hole]
+[done][white4 | white4] -> [done][hole | hole]
+[done][white5 | white5] -> [done][hole | hole]
+(if any whites left say there are MORE)
+[white][loctn] -> [white][loctn more] 
+(if no MORE then cleared all whites)
+[loctn no more] -> message well done all cleared
+([loctn no more] -> win)
+
+
+==============
+WINCONDITIONS
+==============
+no more
+=======
+LEVELS
+=======
+(A.....
+.1111.
+.2222.
+.3333.
+.4444.
+......
+
+A.......
+.111111.
+.222222.
+.33..33.
+.444444.
+.555555.
+........)
+A.......
+.X11115.
+.222222.
+.333333.
+.444444.
+.55555X.
+........
+
+A......
+.11X11.
+.22X22.
+.3333X.
+.XXX44.
+.5555X.
+.......
+(A.......
+.11111.
+.22X22.
+.3XXX3.
+.44X44.
+.55555.
+........)
